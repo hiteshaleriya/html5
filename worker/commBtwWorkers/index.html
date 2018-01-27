@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <title>Worker Communication</title>
+</head>
+
+<body>
+    <p>Worker Communication demo...</p>
+    <button onclick="sendMsg()">Call Worker</button>
+
+    <script type="text/javascript">
+        var channel = new MessageChannel();
+        var worker1 = new Worker("worker1.js");
+        var worker2 = new Worker("worker2.js");
+
+        // Setup the connection: Port 1 is for worker 1
+        worker1.postMessage({
+            command: "connect",
+        }, [channel.port1]);
+
+        // Setup the connection: Port 2 is for worker 2
+        worker2.postMessage({
+            command: "connect",
+        }, [channel.port2]);
+
+        function sendMsg() {
+            console.log("Commanding worker1 to forward the message to worker2");
+            worker1.postMessage({
+                command: "forward",
+                message: "this message is forwarded to worker 2"
+            });
+        }
+    </script>
+</body>
+
+</html>

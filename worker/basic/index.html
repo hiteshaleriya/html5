@@ -1,0 +1,20 @@
+<html>
+<head>
+	<title>Woker Example</title>
+</head>
+<body>
+    <p>Worker demo...</p>
+    <button onclick="compute()">Call Worker</button>
+
+    <script type="text/javascript">
+    	function compute() {
+    		worker.postMessage({cmd: "avg", arr: [12,32,5,2,7,8,2,3,23]})
+    	}
+
+    	var worker = new Worker("worker.js");
+    	worker.addEventListener("message", function(e) {
+    		console.log(e.data);
+    	});
+    </script>
+</body>
+</html>
