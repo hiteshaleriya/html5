@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Service Worker</title>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+<body>
+	<div class="container">
+	    <h2 class="heading">Service Worker Example</h2>
+	    <p class="description">Demonstration of cachin resources with service worker.</p>
+	</div>
+
+    <script type="text/javascript">
+    	// register the service worker if available
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').then(function(){
+            	console.log("success")
+            });
+        }
+    </script>
+</body>
+</html>

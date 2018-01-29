@@ -2,5 +2,4 @@ HTML5 Api:
 * SSE
 * Web Workers
 * Geolocation
-* Application cache
-* Drag and Drop
+* Service Worker (https://serviceworke.rs/)

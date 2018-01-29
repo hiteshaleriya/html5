@@ -6,7 +6,7 @@ var connections = [];
 var votes = { yes: 0, no: 0 };
 
 app.use(sse);
-app.use(express.static(__dirname+ './'));
+app.use(express.static(__dirname+ '/'));
 
 app.get('/vote', function(req, res) {
     if (req.query.yes === "true") {
@@ -26,9 +26,9 @@ app.get('/stream', function(req, res) {
     connections.push(res);
 });
 
-app.get('/*', function(req, res) {
+/*app.get('/*', function(req, res) {
     res.sendFile(__dirname + '/index.html');
-});
+});*/
 
 app.listen(3000, function() {
     console.log('Listening on port 3000...')
