@@ -1,7 +1,6 @@
 HTML5 Api:
 * SSE
+* Web Workers
 * Geolocation
 * Application cache
-* Local Storage
 * Drag and Drop
-* Web Workers

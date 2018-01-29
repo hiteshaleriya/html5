@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>SSE Example</title>
+    <style type="text/css">
+    	.btn {
+	    	display: inline-block;
+		    padding: 6px 20px;
+		    margin-bottom: 0;
+		    font-size: 14px;
+		    font-weight: 400;
+		    line-height: 1.42857143;
+		    text-align: center;
+		    white-space: nowrap;
+		    vertical-align: middle;
+		    cursor: pointer;
+		    background-image: none;
+		    border: 1px solid transparent;
+		    text-transform: uppercase;
+		}
+		.btn.yes {
+			color: #fff;
+		    background-color: #337ab7;
+   			border-color: #2e6da4;
+		}
+		.btn.no {
+			color: #fff;
+		    background-color: #f0ad4e;
+		    border-color: #eea236;
+		}
+		.right {
+			float: right;
+		}
+    </style>
+</head>
+
+<body>
+    <h1> Do you vote?</h1>
+    <button type="button" class="btn yes" id="yes">
+    	Yes :)
+    </button>
+    <button type="button" class="btn no" id="no">
+    	No :(
+    </button>
+
+    <hr/>
+
+    <div id="state" class="right">Disconnected</div>
+    <div id="votes">Yes: 0, No: 0</div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+	    // do votes
+	    function vote(yes) {
+	        $.get("/vote?yes=" + yes);
+	    }
+
+	    $("#yes").on("click", function() {
+	        vote(true)
+	    });
+
+	    $("#no").on("click", function() {
+	        vote(false)
+	    });
+
+	    // render votes
+	    if (window.EventSource) {
+     	    var source = new EventSource('/stream');
+  
+	        source.addEventListener('message', function(e) {
+	        	votes = JSON.parse(e.data);
+	        	$("#votes").text("Yes: " + votes.yes + ", No: " + votes.no);
+	        }, false);
+
+	        source.addEventListener('open', function(e) {
+	        	$("#state").text("Connected");
+	        }, false);
+
+	        source.addEventListener('error', function(e) {
+	        	if (e.target.readyState == EventSource.CLOSED) {
+	          		$("#state").text("Disconnected");
+	       		} else if (e.target.readyState == EventSource.CONNECTING) {
+	          		$("#state").text("Connecting...");
+	        	}
+	        }, false);
+	    } else {
+	        console.log("Your browser doesn't support SSE");
+	    }
+    </script>
+</body>
+
+</html>
